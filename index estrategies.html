@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registre d'estratègies d'avaluació – proposta</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
+<style>
+  :root{
+    --p600:#000078; --p500:#2D2D90; --p300:#8686BF; --p900:#000024;
+    --s500:#73EDFF; --s200:#BDF6FF;
+    --g100:#F8F8F8; --g200:#F0F0F0; --g300:#D0D0D0; --white:#FFFFFF; --error:#FF0000;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--white);font-family:'UOC Sans','Fira Sans',system-ui,sans-serif;color:var(--p600);letter-spacing:.33px}
+  .page{max-width:1440px;margin:0 auto;padding:24px 48px 48px}
+  @media (max-width:700px){.page{padding:16px}}
+  header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-bottom:72px}
+  .brand{display:flex;align-items:center;gap:12px;border-top:4px solid var(--s500);border-bottom:4px solid var(--s500);padding:10px 24px 10px 0}
+  .logo{width:96px;height:72px;background:var(--s500);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:40px;letter-spacing:-2px}
+  .uni{font-family:Georgia,serif;font-size:17px;line-height:1.2;letter-spacing:0}
+  .title{flex:1 1 400px;display:flex;align-items:center;border-top:4px solid var(--s500);border-bottom:4px solid var(--s500);padding:0 8px}
+  h1{margin:0;font-size:32px;line-height:40px}
+  .notice{background:var(--s200);padding:32px 40px;margin-bottom:40px}
+  .notice h2{margin:0 0 12px;font-size:28px;line-height:36px;font-weight:400}
+  .notice p{margin:0 0 12px;font-size:16px;line-height:24px;color:var(--p900)}
+  .notice p:last-child{margin:0}
+  .panel{display:flex;flex-wrap:wrap;gap:20px 24px;align-items:flex-end;background:var(--g100);padding:24px}
+  .field{display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:24px}
+  .ds-field{height:40px;background:var(--white);border:2px solid transparent;border-radius:4px;font:inherit;font-size:16px;color:var(--p600);padding:0 12px}
+  .ds-field:hover{border-color:var(--p300)}
+  .ds-field:focus{outline:none;border-color:var(--p600)}
+  input.ds-field{color:var(--p900);padding:0 14px}
+  .search-wrap{position:relative;display:block}
+  .search-wrap input{width:100%;padding-right:44px}
+  .search-wrap svg{position:absolute;right:14px;top:11px}
+  .btn{height:48px;display:inline-flex;align-items:center;gap:10px;padding:0 28px;font:inherit;font-size:16px;font-weight:700;letter-spacing:.2px;cursor:pointer;border:2px solid var(--p600)}
+  .btn-primary{background:var(--p600);color:var(--white)}
+  .btn-secondary{background:var(--white);color:var(--p600)}
+  .link{background:transparent;border:0;font:inherit;font-size:16px;color:var(--p600);text-decoration:underline;cursor:pointer;min-height:44px;padding:0 6px}
+  button:focus-visible,input[type=checkbox]:focus-visible{outline:2px solid var(--p600);outline-offset:2px}
+  input[type=checkbox]{width:18px;height:18px;accent-color:var(--p600);cursor:pointer;margin:0}
+  .check{display:flex;align-items:center;gap:10px;min-height:40px;cursor:pointer;color:var(--p900);font-size:16px}
+  .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin:0 0 12px}
+  .chev{transition:transform .15s}
+  .count{margin:0 0 12px;font-size:16px;line-height:24px;color:var(--p500)}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;min-width:860px;border-collapse:collapse;font-size:20px;line-height:32px;border:1px solid var(--g200)}
+  th{background:var(--g100);text-align:left;padding:12px 16px;font-weight:700;border:1px solid var(--g200)}
+  th.c{text-align:center;width:17%}
+  th .sub{display:block}
+  th .nw{display:block;white-space:nowrap}
+  td{padding:8px 16px;vertical-align:middle;border-left:1px solid var(--g200);border-right:1px solid var(--g200);color:var(--p900)}
+  td.c{text-align:center;padding:16px}
+  .cell{display:flex;align-items:center;gap:4px}
+  .info-wrap{position:relative;display:inline-flex}
+  .icon-btn{width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;background:transparent;border:0;padding:0;cursor:pointer}
+  .spacer{display:inline-block;width:44px;height:44px;flex:none}
+  .group-btn{min-height:44px;display:flex;align-items:center;gap:8px;padding:0 6px 0 0;background:transparent;border:0;font:inherit;color:var(--p600);cursor:pointer}
+  .group-btn span{font-weight:700}
+  .tip{position:absolute;top:50px;left:-8px;z-index:5;width:340px;background:var(--white);border-radius:4px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,36,.18);text-align:left}
+  .tip::before{content:"";position:absolute;top:-6px;left:22px;width:12px;height:12px;background:var(--white);transform:rotate(45deg);box-shadow:-2px -2px 3px rgba(0,0,36,.06)}
+  .tip b{position:relative;display:block;font-size:16px;line-height:24px;color:var(--p600);margin-bottom:4px}
+  .tip span{position:relative;display:block;font-size:14px;line-height:20px;font-weight:400;color:var(--p900)}
+  .summary{font-size:16px;line-height:24px;color:var(--p500)}
+  .empty{padding:40px 16px;text-align:center;background:var(--g100);font-size:16px;line-height:24px;color:var(--p900)}
+  .actions{display:flex;justify-content:flex-end;gap:16px;margin-top:32px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="top">
+    <div class="brand">
+      <div class="logo">UOC</div>
+      <div class="uni">Universitat Oberta<br>de Catalunya</div>
+    </div>
+    <div class="title"><h1>Registre d'estratègies d'avaluació</h1></div>
+  </header>
+
+  <div class="notice">
+    <h2>Avís important:</h2>
+    <p>Aquesta eina permet registrar i sistematitzar les estratègies d'avaluació, de feedback i d'intel·ligència artificial que s'apliquen a les assignatures. Tria les estratègies que utilitzaràs a cada assignatura i en quina modalitat d'avaluació: contínua o final.</p>
+    <p>Les estratègies seleccionades es mostraran al pla docent de l'assignatura, acompanyades d'una breu explicació adreçada a l'estudiant.</p>
+  </div>
+
+  <div class="panel" style="margin-bottom:40px">
+    <label class="field">
+      <span>Període<span style="color:var(--error)">*</span></span>
+      <select class="ds-field" style="min-width:170px"><option>20261</option></select>
+    </label>
+    <label class="field" style="flex:1 1 360px;max-width:560px">
+      <span>Assignatura</span>
+      <input class="ds-field" type="text" value="M1.065-Avaluació en línia">
+    </label>
+    <button type="button" class="btn btn-primary">Cerca</button>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" id="filterBtn" class="btn btn-secondary" aria-expanded="false" aria-controls="filtres" style="padding:0 22px">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
+      <span id="filterLabel">Filtres</span>
+      <svg id="filterChev" class="chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <button type="button" class="link" id="clearTop" hidden>Esborra els filtres</button>
+  </div>
+
+  <section id="filtres" class="panel" aria-label="Filtres d'estratègies" style="margin-bottom:16px" hidden>
+    <label class="field" style="flex:2 1 320px">
+      <span>Cerca</span>
+      <span class="search-wrap">
+        <input id="search" class="ds-field" type="text" placeholder="Nom de l'estratègia o paraula clau">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000078" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      </span>
+    </label>
+    <label class="field" style="flex:1 1 240px">
+      <span>Agrupació</span>
+      <select id="group" class="ds-field"><option value="all">Totes les agrupacions</option></select>
+    </label>
+    <label class="check">
+      <input id="onlySel" type="checkbox">
+      <span>Només les seleccionades</span>
+    </label>
+  </section>
+
+  <p class="count" role="status" id="count"></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:24%">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0 12px">
+              <span>Agrupació</span>
+              <button type="button" class="link" id="toggleAll" style="font-weight:400;padding:0 4px;min-height:40px">Plega-ho tot</button>
+            </div>
+          </th>
+          <th>Estratègia</th>
+          <th class="c"><span class="nw">Avaluació contínua</span><span class="sub">(AC)</span></th>
+          <th class="c"><span class="nw">Avaluació final</span><span class="sub">(AF)</span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="empty" id="empty" hidden>
+    Cap estratègia coincideix amb els filtres. <button type="button" class="link" id="clearEmpty">Esborra els filtres</button>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn btn-secondary">Cancel·la</button>
+    <button type="button" class="btn btn-primary">Desa</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var GROUPS = [
+    { id: 'aval', label: 'Avaluació', desc: "Estratègies que defineixen com es recullen les evidències d'aprenentatge: format de l'activitat, modalitat (síncrona o asíncrona) i qui avalua. Marca-les segons on s'apliquin: AC, AF o totes dues." },
+    { id: 'feed', label: 'Feedback', desc: "Estratègies que defineixen com es retorna la valoració a l'estudiant. Pots marcar-ne més d'una per a la mateixa modalitat." },
+    { id: 'sup', label: 'Supervisió', desc: '' }
+  ];
+  var STRATEGIES = [
+    ['aval','pova','Activitat oral asíncrona [Projecte POVA]'],
+    ['aval','oral-as','Activitat oral asíncrona [Altres iniciatives]'],
+    ['aval','oral-si','Activitat oral síncrona [Altres iniciatives]'],
+    ['aval','povs','Activitat oral síncrona [Projecte POVS]'],
+    ['aval','autentica','Avaluació autèntica'],
+    ['aval','progressiva','Avaluació progressiva'],
+    ['aval','bancs','Bancs de preguntes'],
+    ['aval','coaval','Coavaluació'],
+    ['aval','defensa','Defensa síncrona i pública de TF'],
+    ['aval','metacog','Metacognició'],
+    ['aval','equip','Treball en equip'],
+    ['feed','autoaval','Autoavaluació amb solucionari'],
+    ['feed','dins',"Dins del document de l'activitat"],
+    ['feed','general','Missatge general'],
+    ['feed','grupal','Missatge grupal'],
+    ['feed','individual','Missatge individual'],
+    ['feed','reelab','Reelaboració'],
+    ['feed','rubriques','Rúbriques'],
+    ['feed','sincrona','Sessió síncrona'],
+    ['feed','video','Vídeo'],
+    ['sup','plagi','Detecció de plagi'],
+    ['sup','asinc','Supervisió en línia (activitat asíncrona / període)'],
+    ['sup','sinc1','Supervisió en línia (activitat síncrona / torn - 1 hora)'],
+    ['sup','sinc2','Supervisió en línia (activitat síncrona / torn - 2 hores)']
+  ];
+  var STRATEGY_DESC = "[Breu explicació de l'estratègia, la mateixa que es mostra a l'estudiant al pla docent.]";
+
+  var state = { search: '', group: 'all', onlySelected: false, tip: null, filtersOpen: false, collapsed: {}, sel: { 'sup-plagi': { ac: true, af: false } } };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var gmap = {};
+  GROUPS.forEach(function (g) {
+    gmap[g.id] = g;
+    var o = document.createElement('option'); o.value = g.id; o.textContent = g.label; $('group').appendChild(o);
+  });
+
+  var INFO_SVG = '<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000078" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 11v6" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="#000078" stroke="none"/></svg>';
+  function infoBtn(tipId, label, title, text) {
+    var open = state.tip === tipId;
+    return '<span class="info-wrap"><button type="button" class="icon-btn" data-tip="' + esc(tipId) + '" aria-label="' + esc(label) + '" aria-expanded="' + open + '">' + INFO_SVG + '</button>' +
+      (open ? '<div class="tip" role="tooltip"><b>' + esc(title) + '</b><span>' + esc(text) + '</span></div>' : '') + '</span>';
+  }
+
+  function render() {
+    var q = state.search.trim().toLowerCase();
+    var byGroup = {}, shown = 0;
+    STRATEGIES.forEach(function (it) {
+      var key = it[0] + '-' + it[1], s = state.sel[key] || { ac: false, af: false }, g = gmap[it[0]];
+      if (state.group !== 'all' && state.group !== it[0]) return;
+      if (q && it[2].toLowerCase().indexOf(q) === -1 && g.label.toLowerCase().indexOf(q) === -1) return;
+      if (state.onlySelected && !s.ac && !s.af) return;
+      (byGroup[it[0]] = byGroup[it[0]] || []).push({ key: key, name: it[2], s: s });
+      shown++;
+    });
+
+    var html = '', stripe = 0, visible = [];
+    GROUPS.forEach(function (g) {
+      var items = byGroup[g.id]; if (!items) return;
+      visible.push(g.id); stripe++;
+      var collapsed = !!state.collapsed[g.id];
+      var bg = 'background:' + (stripe % 2 ? 'var(--g200)' : 'var(--white)');
+      var groupCell = '<div class="cell">' +
+        (g.desc ? infoBtn('g:' + g.id, "Informació sobre l'agrupació " + g.label, g.label, g.desc) : '<span class="spacer" aria-hidden="true"></span>') +
+        '<button type="button" class="group-btn" data-group="' + g.id + '" aria-expanded="' + !collapsed + '" aria-label="' + (collapsed ? 'Desplega ' : 'Plega ') + esc(g.label) + '">' +
+        '<svg class="chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(' + (collapsed ? '-90deg' : '0deg') + ')"><path d="M6 9l6 6 6-6"/></svg>' +
+        '<span>' + esc(g.label) + '</span></button></div>';
+
+      if (collapsed) {
+        var nSel = items.filter(function (x) { return x.s.ac || x.s.af; }).length;
+        var nAc = items.filter(function (x) { return x.s.ac; }).length;
+        var nAf = items.filter(function (x) { return x.s.af; }).length;
+        html += '<tr style="border-top:2px solid var(--p600);' + bg + '"><td>' + groupCell + '</td>' +
+          '<td><span class="summary">' + nSel + ' de ' + items.length + ' estratègies seleccionades</span></td>' +
+          '<td class="c"><span class="summary">' + nAc + ' a AC</span></td><td class="c"><span class="summary">' + nAf + ' a AF</span></td></tr>';
+        return;
+      }
+      items.forEach(function (x, i) {
+        html += '<tr style="border-top:' + (i === 0 ? '2px solid var(--p600)' : '1px solid var(--g300)') + ';' + bg + '">' +
+          '<td>' + (i === 0 ? groupCell : '') + '</td>' +
+          '<td><div class="cell">' + infoBtn('s:' + x.key, 'Informació sobre ' + x.name, x.name, STRATEGY_DESC) + '<span>' + esc(x.name) + '</span></div></td>' +
+          '<td class="c"><input type="checkbox" data-key="' + x.key + '" data-field="ac" aria-label="' + esc(x.name) + ' – avaluació contínua"' + (x.s.ac ? ' checked' : '') + '></td>' +
+          '<td class="c"><input type="checkbox" data-key="' + x.key + '" data-field="af" aria-label="' + esc(x.name) + ' – avaluació final"' + (x.s.af ? ' checked' : '') + '></td></tr>';
+      });
+    });
+    $('tbody').innerHTML = html;
+    $('empty').hidden = shown > 0;
+    $('count').textContent = 'Es mostren ' + shown + ' de ' + STRATEGIES.length + ' estratègies';
+
+    var allCollapsed = visible.length > 0 && visible.every(function (id) { return state.collapsed[id]; });
+    $('toggleAll').textContent = allCollapsed ? 'Desplega-ho tot' : 'Plega-ho tot';
+    $('toggleAll').dataset.all = allCollapsed ? '1' : '';
+
+    var nActive = (q ? 1 : 0) + (state.group !== 'all' ? 1 : 0) + (state.onlySelected ? 1 : 0);
+    $('filterLabel').textContent = nActive ? 'Filtres · ' + nActive : 'Filtres';
+    $('filterBtn').className = 'btn ' + (nActive ? 'btn-primary' : 'btn-secondary');
+    $('filterBtn').setAttribute('aria-expanded', state.filtersOpen);
+    $('filterChev').style.transform = 'rotate(' + (state.filtersOpen ? '180deg' : '0deg') + ')';
+    $('filtres').hidden = !state.filtersOpen;
+    $('clearTop').hidden = nActive === 0;
+  }
+
+  function clearFilters() {
+    state.search = ''; state.group = 'all'; state.onlySelected = false;
+    $('search').value = ''; $('group').value = 'all'; $('onlySel').checked = false;
+    render();
+  }
+
+  $('filterBtn').addEventListener('click', function () { state.filtersOpen = !state.filtersOpen; render(); });
+  $('search').addEventListener('input', function (e) { state.search = e.target.value; render(); });
+  $('group').addEventListener('change', function (e) { state.group = e.target.value; render(); });
+  $('onlySel').addEventListener('change', function (e) { state.onlySelected = e.target.checked; render(); });
+  $('clearTop').addEventListener('click', clearFilters);
+  $('clearEmpty').addEventListener('click', clearFilters);
+  $('toggleAll').addEventListener('click', function () {
+    var expand = !!$('toggleAll').dataset.all, c = {};
+    GROUPS.forEach(function (g) { c[g.id] = !expand; });
+    state.collapsed = c; render();
+  });
+
+  var tbody = $('tbody');
+  var hoverOpened = null;
+  tbody.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-tip]');
+    if (t) {
+      var id = t.dataset.tip;
+      if (hoverOpened === id) { hoverOpened = null; return; }
+      state.tip = state.tip === id ? null : id; render(); return;
+    }
+    var g = e.target.closest('[data-group]');
+    if (g) { state.collapsed[g.dataset.group] = !state.collapsed[g.dataset.group]; render(); }
+  });
+  tbody.addEventListener('mouseover', function (e) {
+    var t = e.target.closest('[data-tip]');
+    if (t && state.tip !== t.dataset.tip) { state.tip = t.dataset.tip; hoverOpened = state.tip; render(); }
+  });
+  tbody.addEventListener('mouseout', function (e) {
+    var t = e.target.closest('[data-tip]');
+    if (t && !t.contains(e.relatedTarget) && state.tip) { state.tip = null; render(); }
+  });
+  tbody.addEventListener('change', function (e) {
+    var c = e.target;
+    if (!c.dataset.key) return;
+    var cur = state.sel[c.dataset.key] || { ac: false, af: false };
+    cur[c.dataset.field] = c.checked;
+    state.sel[c.dataset.key] = cur;
+    render();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.tip) { state.tip = null; render(); } });
+
+  render();
+})();
+</script>
+</body>
+</html>
